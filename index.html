@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>www.nooz.cn</title>
+<style>
+*{ margin:0; padding:0; list-style:none; font-family: "微软雅黑","张海山锐线体简"}
+#div1{width:930px; background:#CCC; overflow: hidden; margin:0 auto;}
+#div1 ul{ background:#999;width:300px;margin-right:10px; float:left;}
+#div1 ul li{ background: #333;/*height:300px;*/margin-bottom:10px;}
+</style>
+<script>
+window.onload=function(){
+	var oDiv=document.getElementById('div1');
+	var aUl=oDiv.children;
+	
+	//创建li		createLi
+	function createLi(){
+		var oLi=document.createElement('li');
+		oLi.style.height=parseInt(100+Math.random()*(300-100))+'px';
+		return oLi;	
+	}
+
+	//找最短的ul插入li,插入一批li	insertToUl
+	insertToUl(20);
+	function insertToUl(n){
+		//插入一批
+		for(var j=0;j<n;j++){
+			var oLi=createLi();
+			//找最短的ul
+			var arr=[];
+			for(var i=0;i<aUl.length;i++){
+				arr.push(aUl[i]);	
+			}
+			arr.sort(function(n1,n2){return n1.offsetHeight-n2.offsetHeight})
+			arr[0].appendChild(oLi);
+		}	
+	}
+
+	//滚动到底部，继续插入一批li	
+	window.onscroll=function(){
+		var scrTop=document.documentElement.scrollTop||document.body.scrollTop;
+		var clientH=document.documentElement.clientHeight;
+		var bodyH=document.body.scrollHeight;
+		if(bodyH<=scrTop+clientH){
+			alert('到底了');
+			insertToUl(10);	
+		}
+	};
+};
+</script>
+</head>
+
+<body>
+<div id="div1">
+	<ul></ul>
+	<ul></ul>
+	<ul></ul>
+</div>
+</body>
+</html>
